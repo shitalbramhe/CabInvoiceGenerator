@@ -8,27 +8,29 @@ namespace CabInvoiceGenerator
 {
     public class InvoiceGenerator
     {
-        readonly private double distance;
-        readonly private double time;
-        readonly private double CostPerKiloMeter = 10.0;
-        readonly private double CostPerMinitues = 1.0;
-        readonly private double MinimumFare = 5.0;
 
-        public InvoiceGenerator(double runningdistance, double runningtime)
-        {
-            this.distance = runningdistance;
-            this.time = runningtime;
-        }
+        readonly public double CostPerKiloMeter = 10.0;
+        readonly public double CostPerMinitues = 1.0;
+        readonly public double MinimumFare = 5.0;
 
-        public double CalculateCabFare()
+        public double CalculateCabFare(double runningdistance, double runningtime)
         {
-            double totalFare = (distance * CostPerKiloMeter) + (time * CostPerMinitues);
+            double totalFare = (runningdistance * CostPerKiloMeter) + (runningtime * CostPerMinitues);
             if (totalFare < MinimumFare)
             {
                 return MinimumFare;
             }
             return totalFare;
         }
-
+        public double CalculateMultipleCabFare(Ride[] rides)
+        {
+            double totalFare = 0;
+            foreach (Ride ride in rides)
+            {
+                totalFare += this.CalculateCabFare(ride.distance, ride.time);
+            }
+            return totalFare;
+        }
     }
 }
+
